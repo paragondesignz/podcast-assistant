@@ -1,65 +1,92 @@
-import Image from "next/image";
+"use client";
+import React, { useState } from 'react';
+import { Mic2, FileText, Wand2, Music, CheckCircle } from 'lucide-react';
 
-export default function Home() {
+export default function PodcastAssistant() {
+  const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('notes');
+
+  const process = () => {
+    setLoading(true);
+    setTimeout(() => setLoading(false), 2500);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-black text-white p-8">
+      <div className="max-w-5xl mx-auto">
+        <header className="flex justify-between items-center mb-16">
+          <div className="flex items-center gap-3">
+            <div className="bg-purple-600 p-3 rounded-2xl shadow-[0_0_20px_rgba(147,51,234,0.3)]">
+              <Mic2 className="w-8 h-8" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold italic tracking-tighter">PODFLOW</h1>
+              <div className="h-1 w-full bg-purple-600 rounded-full" />
+            </div>
+          </div>
+          <button className="bg-zinc-800 px-6 py-2 rounded-full text-sm font-semibold hover:bg-zinc-700 transition-colors">
+            Upload Audio
+          </button>
+        </header>
+
+        <div className="bg-zinc-900/50 border border-zinc-800 rounded-[2rem] p-10 backdrop-blur-xl">
+          <div className="flex gap-4 mb-10 border-b border-zinc-800 pb-6">
+            <TabButton active={activeTab === 'notes'} onClick={() => setActiveTab('notes')} icon={<FileText className="w-4 h-4" />} label="Show Notes" />
+            <TabButton active={activeTab === 'clips'} onClick={() => setActiveTab('clips')} icon={<Wand2 className="w-4 h-4" />} label="Social Clips" />
+            <TabButton active={activeTab === 'assets'} onClick={() => setActiveTab('assets')} icon={<Music className="w-4 h-4" />} label="Brand Assets" />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div className="lg:col-span-2 space-y-8">
+              <div className="space-y-4">
+                <h2 className="text-3xl font-bold">The Future of AI Bassists</h2>
+                <p className="text-zinc-400 leading-relaxed">
+                  In this episode, we talk with Mark Steven about the integration of AI in modern bass tracking and how it's changing the landscape for session musicians.
+                </p>
+              </div>
+
+              <div className="bg-zinc-900 rounded-2xl p-6 border border-zinc-800">
+                <h3 className="text-sm font-bold text-purple-400 uppercase mb-4 tracking-widest">Chapters</h3>
+                <div className="space-y-4">
+                  <Chapter time="02:15" title="Introduction to AI in Bass" />
+                  <Chapter time="10:45" title="The Paragon Design Workflow" />
+                  <Chapter time="25:30" title="Live Music vs Studio AI" />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-purple-600/10 border border-purple-500/20 rounded-3xl p-8 flex flex-col justify-center items-center text-center">
+              <CheckCircle className="w-12 h-12 text-purple-500 mb-4" />
+              <h4 className="text-xl font-bold mb-2">Ready for Export</h4>
+              <p className="text-zinc-400 text-sm mb-6">Your social media kit and show notes have been generated.</p>
+              <button className="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-xl font-bold transition-all shadow-lg shadow-purple-600/20">
+                Download Everything
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
+    </div>
+  );
+}
+
+function TabButton({ active, icon, label, onClick }: any) {
+  return (
+    <button 
+      onClick={onClick}
+      className={`flex items-center gap-2 px-6 py-2 rounded-full transition-all text-sm font-medium ${active ? 'bg-purple-600 text-white' : 'text-zinc-500 hover:text-zinc-300'}`}
+    >
+      {icon} {label}
+    </button>
+  );
+}
+
+function Chapter({ time, title }: any) {
+  return (
+    <div className="flex items-center gap-4 group cursor-pointer">
+      <span className="font-mono text-zinc-500 group-hover:text-purple-400 transition-colors">{time}</span>
+      <div className="h-px flex-grow bg-zinc-800" />
+      <span className="text-zinc-300 group-hover:text-white transition-colors">{title}</span>
     </div>
   );
 }
